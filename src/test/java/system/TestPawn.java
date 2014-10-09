@@ -21,42 +21,44 @@ import simpleGame.exception.OutOfBoardException;
 /**
  * Test de Pawn en utilisant un Mock de Board
  */
-public class TestPawn
-{
+public class TestPawn {
     Pawn p;
     Board board; //le mockito
 
     @Before
-    public void SimplePawn()
-    {
+    public void SimplePawn() {
         // Creating context
         board = mock(Board.class);
-        p = new Pawn('P',5,6,board);
+        p = new Pawn('P', 5, 6, board);
     }
 
     @Test
     public void testGetX() throws Exception {
-        assertTrue(p.getX()==5);
+        assertTrue(p.getX() == 5);
     }
+
     @Test
     public void testGetY() throws Exception {
-        assertTrue(p.getY()==6);
+        assertTrue(p.getY() == 6);
     }
+
     @Test
     public void testGetLetter() throws Exception {
-        assertTrue(p.getLetter()=='P');
+        assertTrue(p.getLetter() == 'P');
     }
 
     @Test
     public void testGetGold() throws Exception {
-        assertTrue(p.getGold()==0);
+        assertTrue(p.getGold() == 0);
     }
 
-    /** la méthode move()
-     *
+    /**
+     * la méthode move()
+     * <p/>
      * Test move avec appel a la methode attack
-     * @see simpleGame.core.Pawn#move(simpleGame.core.Direction)
+     *
      * @throws Exception
+     * @see simpleGame.core.Pawn#move(simpleGame.core.Direction)
      */
     @Test
     public void testMove() throws Exception {
@@ -65,18 +67,20 @@ public class TestPawn
         Direction d = Direction.Down; //position y--
         Mockito.when(board.getYSize()).thenReturn(10);
         Mockito.when(board.getXSize()).thenReturn(10);
-        Pawn p1 = new Pawn('A',5,5,board);
+        Pawn p1 = new Pawn('A', 5, 5, board);
         Mockito.when(board.getSquareContent(5, 5)).thenReturn(p1);
         //sans attaque
         assertTrue(!p.move(d).equals(""));
         assertTrue(p.move(d).contains("P attacks!"));
     }
 
-    /** la méthode move()
-     *
+    /**
+     * la méthode move()
+     * <p/>
      * Test move simple sans attack
-     * @see simpleGame.core.Pawn#move(simpleGame.core.Direction)
+     *
      * @throws Exception
+     * @see simpleGame.core.Pawn#move(simpleGame.core.Direction)
      */
     @Test
     public void testMoveUpLeftRight() throws Exception {
@@ -84,7 +88,7 @@ public class TestPawn
         // rappel: p = new Pawn('r',5,6,board);
         Mockito.when(board.getYSize()).thenReturn(10);
         Mockito.when(board.getXSize()).thenReturn(10);
-        Pawn p1 = new Pawn('A',6,7,board);
+        Pawn p1 = new Pawn('A', 6, 7, board);
         Mockito.when(board.getSquareContent(6, 7)).thenReturn(p1);
         //sans attaque
         assertTrue(p.move(Direction.Up).equals(""));//en bougeant p se deplace a (5,7)
@@ -93,45 +97,87 @@ public class TestPawn
     }
 
 
-    /** la méthode move()
-     *
+    /**
+     * la méthode move()
+     * <p/>
      * Test move simple avec attack
      * board.isBonusSquare(x, y) == true
-     * @see simpleGame.core.Pawn#move(simpleGame.core.Direction)
+     *
      * @throws Exception
+     * @see simpleGame.core.Pawn#move(simpleGame.core.Direction)
      */
     @Test
     public void testMoveEnemySuffer() throws Exception {
         //teste dans un board 10x10
         // rappel: p = new Pawn('r',5,6,board);
-        assertTrue((p.getX()==5));
-        assertTrue((p.getY()==6));
+        assertTrue((p.getX() == 5));
+        assertTrue((p.getY() == 6));
 
         Mockito.when(board.getYSize()).thenReturn(10);
         Mockito.when(board.getXSize()).thenReturn(10);
-        Pawn p1 = new Pawn('A',6,6,board);
+        Pawn p1 = new Pawn('A', 6, 6, board);
         Mockito.when(board.getSquareContent(6, 6)).thenReturn(p1);
         Mockito.when(board.isBonusSquare(5, 6)).thenReturn(true); //la ou se trouve le pawn est un square bonus
         /**assertTrue(p.move(Direction.Up).contains(p1.getLetter()+" loses "+2
-                +" hitpoints."));//en bougeant p se deplace a (5,7)
-        //sans attaque
-        **/
-       // assertTrue(p.move(Direction.Right).contains(p.getLetter()+" is dead."));
-        assertTrue((p.getX()==5));
-        assertTrue((p.getY()==6));
+         +" hitpoints."));//en bougeant p se deplace a (5,7)
+         //sans attaque
+         **/
+        // assertTrue(p.move(Direction.Right).contains(p.getLetter()+" is dead."));
+        assertTrue((p.getX() == 5));
+        assertTrue((p.getY() == 6));
         assertTrue(p.move(Direction.Right).contains("attack"));
         assertTrue(p.move(Direction.Right).contains("loses 2"));
     }
 
+
     @Test(expected = OutOfBoardException.class)
-    public void testMoveException() throws Exception
-    {
+    public void testMoveExceptionRight() throws Exception {
         // rappel: p = new Pawn('r',5,6,board);
-        assertTrue((p.getX()==5));
-        assertTrue((p.getY()==6));
-        p = new Pawn('P',10,10,board);
+        assertTrue((p.getX() == 5));
+        assertTrue((p.getY() == 6));
+        p = new Pawn('P', 10, 9, board);
         Mockito.when(board.getYSize()).thenReturn(10);
         Mockito.when(board.getXSize()).thenReturn(10);
-        assertTrue(p.move(Direction.Right).contains("attack")); //exception car on sort du board
+        p.move(Direction.Right);
+        //assertTrue(p.move(Direction.Right).contains("This square does not exist:")); //exception car on sort du board
+    }
+
+
+    @Test(expected = OutOfBoardException.class)
+    public void testMoveExceptionUp() throws Exception {
+        // rappel: p = new Pawn('r',5,6,board);
+        assertTrue((p.getX() == 5));
+        assertTrue((p.getY() == 6));
+        p = new Pawn('P', 9, 10, board);
+        Mockito.when(board.getYSize()).thenReturn(10);
+        Mockito.when(board.getXSize()).thenReturn(10);
+        p.move(Direction.Up);
+        //assertTrue(p.move(Direction.Up).contains("This square does not exist:")); //exception car on sort du board
+    }
+
+
+    @Test(expected = OutOfBoardException.class)
+    public void testMoveExceptionLeft() throws Exception {
+        // rappel: p = new Pawn('r',5,6,board);
+        assertTrue((p.getX() == 5));
+        assertTrue((p.getY() == 6));
+        p = new Pawn('P', 0, 9, board);
+        Mockito.when(board.getYSize()).thenReturn(10);
+        Mockito.when(board.getXSize()).thenReturn(10);
+        p.move(Direction.Left);
+        //assertTrue(p.move(Direction.Left).contains("This square does not exist:")); //exception car on sort du board
+    }
+
+
+    @Test(expected = OutOfBoardException.class)
+    public void testMoveExceptionDown() throws Exception {
+        // rappel: p = new Pawn('r',5,6,board);
+        assertTrue((p.getX() == 5));
+        assertTrue((p.getY() == 6));
+        p = new Pawn('P', 9, 0, board);
+        Mockito.when(board.getYSize()).thenReturn(10);
+        Mockito.when(board.getXSize()).thenReturn(10);
+        p.move(Direction.Down);
+        // assertTrue(p.move(Direction.Down).contains("This square does not exist:")); //exception car on sort du board
     }
 }
