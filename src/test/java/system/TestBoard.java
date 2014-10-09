@@ -5,11 +5,15 @@ import org.junit.Test;
 import simpleGame.core.Board;
 import simpleGame.core.Direction;
 import simpleGame.core.Pawn;
+import simpleGame.exception.OutOfBoardException;
 
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by josian on 07/10/14.
+ * Test cases for the class Board
+ * @see simpleGame.core.Board
+ * @author Josian MARINIER
+ * @author Leite NA
  */
 public class TestBoard
 {
@@ -19,6 +23,9 @@ public class TestBoard
 
     Board board; //le mockito
 
+    /**
+     * Do something we must do before each test beginning: A new Board(3,4,5,2,2)
+     */
     @Before
     public void SimpleBoard()
     {
@@ -28,7 +35,11 @@ public class TestBoard
     }
 
     /**
+     * Test the constructor in the class Board
      * @see simpleGame.core.Board#Board(int, int, int, int, int)
+     * @input 0,5,5,2,2
+     * @oracle An board will be created that the number of Pawns equals zero.But a bug found: can not set the 0 pawn as the current one.
+     * @passed Yes with code changed in the class Board, No if not.
      */
     @Test
     public void TestInit()
@@ -38,7 +49,11 @@ public class TestBoard
         //ligne : currentPawn = pawns.get(0); impossile si pawns.size()==0
     }
     /**
+     * Test for the method removeAllPawns.
      * @see simpleGame.core.Board#removeAllPawns()
+     * @input
+     * @oracle After removing all pawns, there must be null in each square in the board.
+     * @passed Yes
      */
     @Test
     public void TestRemoveAllPawns()
@@ -57,7 +72,11 @@ public class TestBoard
     }
 
     /**
+     * Test for getXSize.
      * @see simpleGame.core.Board#getXSize()
+     * @input the board created before.
+     * @oracle The result is 4.
+     * @passed Yes
      */
     @Test
     public void TestGetX()
@@ -66,8 +85,12 @@ public class TestBoard
     }
 
     /**
+     * Test for getYSize.
      * @see simpleGame.core.Board#getYSize()
-     */
+     * @input the board created before.
+     * @oracle The result is 5.
+     * @passed Yes
+     * */
     @Test
     public void TestGetY()
     {
@@ -75,16 +98,24 @@ public class TestBoard
     }
 
     /**
+     * Test for the mothod numberOfPawns.
      * @see simpleGame.core.Board#numberOfPawns()
+     * @input the board created before.
+     * @oracle The result is 3.
+     * @passed Yes
      */
     @Test
     public void TestNumberOfPawns()
     {
-        assertTrue(board.numberOfPawns()<=3);
+        assertTrue(board.numberOfPawns()==3); //@TODO To discus a little why <=3.
     }
 
     /**
+     * Test for the method isBonusSquare.
      * @see simpleGame.core.Board#isBonusSquare(int, int)
+     * @input the board created before. The squares tested: (2,2) (1,2)
+     * @oracle (2,2) is the bonus square and (1,2) is not.
+     * @passed Yes
      */
     @Test
     public void TestIsBonusSquare()
@@ -94,7 +125,11 @@ public class TestBoard
     }
 
     /**
+     * Test for the method addPawns. We remove all pawns first and add some. We still test if the square has one already.
      * @see simpleGame.core.Board#addPawn(simpleGame.core.Pawn)
+     * @input the board created before. Pawn1=Pawn('A',1,1,board) Pawn2=Pawn('B',1,1,board).
+     * @oracle The number of pawns for the first time is 1 and the second time is 1 too.
+     * @passed Yes
      */
     @Test
     public void TestAddPawns()
@@ -114,7 +149,11 @@ public class TestBoard
 
     }
     /**
-     *@see simpleGame.core.Board#getSquareContent(int, int)
+     * Test for the method getSquareContent if we add some pawns in squares
+     * @see simpleGame.core.Board#getSquareContent(int, int)
+     * @input three pawns
+     * @oracle Each pawn has its right postion and the square must be have the right pawns
+     * @passed Yes
      */
     @Test
     public void TestGetSquareContent()
@@ -133,7 +172,11 @@ public class TestBoard
     }
 
     /**
+     * Test for method getNextPawn
      * @see simpleGame.core.Board#getNextPawn()
+     * @input 3 pawns added to the board
+     * @oracle the next pawn of p1 is p2, the next of p2 is p3 and the next of p3 is p1
+     * @passed Yes after modifying codes, No if not.
      */
     @Test
     public void TestGetNextPawn()
@@ -143,7 +186,7 @@ public class TestBoard
 
         Pawn p1 = new Pawn('A',1,1,board);
         board.addPawn(p1);
-        assertTrue(board.getNextPawn()==p1);
+        assertTrue(board.getNextPawn() == p1);
 
 
         Pawn p2 = new Pawn('B',2,1,board);
@@ -152,13 +195,20 @@ public class TestBoard
         board.addPawn(p3);
         assertTrue(board.numberOfPawns()==3);
 
-        assertTrue(board.getNextPawn()==p1); //probleme ici
+        assertTrue(board.getNextPawn() == p1); //probleme ici
         assertTrue(board.getNextPawn()==p2);
         assertTrue(board.getNextPawn()==p3);
         assertTrue(board.getNextPawn()==p1);
 
     }
 
+    /**
+     * Test for method squareContentSprite
+     * @see simpleGame.core.Board#squareContentSprite(int, int)
+     * @input 3 pawns
+     * @oracle The right char should be presented for some squares.
+     * @passed Yes
+     */
     @Test
     public void TestContentSprite()
     {
@@ -173,13 +223,17 @@ public class TestBoard
         board.addPawn(p2);
         board.addPawn(p3);
         board.getNextPawn();
-        assertTrue(board.squareContentSprite(1,1) == 'c');
-        assertTrue(board.squareContentSprite(2,2)=='#');
-        assertTrue(board.squareContentSprite(3,3)=='.');
+        assertTrue(board.squareContentSprite(1, 1) == 'c');
+        assertTrue(board.squareContentSprite(2, 2)=='#');
+        assertTrue(board.squareContentSprite(3, 3)=='.');
     }
 
     /**
+     * Test for the method removePawn
      * @see simpleGame.core.Board#removePawn(simpleGame.core.Pawn)
+     * @input 3 pawns
+     * @oracle The number of pawns must be decreased after remove.
+     * @passed Yes
      */
     @Test
     public void TestRemovePawn()
@@ -200,10 +254,15 @@ public class TestBoard
     }
 
     /**
+     * Test for method MaxGold
+     * @throws simpleGame.exception.OutOfBoardException If a pawn moves out of the board, an exception will be thrown.
      * @see simpleGame.core.Board#maxGold()
+     * @input 3 pawns with some moves
+     * @oracle The max gold will be rightly computed.
+     * @passed Yes
      */
     @Test
-    public void TestMaxGold() throws Exception
+    public void TestMaxGold() throws OutOfBoardException
     {
         board = new Board(0,3,3,2,2);
         board.removeAllPawns();
@@ -239,7 +298,11 @@ public class TestBoard
     }
 
     /**
+     * Test for method toString
      * @see simpleGame.core.Board#toString()
+     * @input 3 pawns
+     * @oracle Right sentences.
+     * @passed Yes
      */
     @Test
     public void TestToString()

@@ -21,11 +21,18 @@ import simpleGame.exception.OutOfBoardException;
 
 /**
  * Test de Pawn en utilisant un Mock de Board
+ * @see simpleGame.core.Pawn
+ * @author Josian MARINIER
+ * @author Leite NA
  */
 public class TestPawn {
     Pawn p;
     Board board; //le mockito
 
+    /**
+     * This is the method which will be executed before each test.
+     * We create an mock board and a Pawn.
+     */
     @Before
     public void SimplePawn() {
         // Creating context
@@ -33,33 +40,61 @@ public class TestPawn {
         p = new Pawn('P', 5, 6, board);
     }
 
+    /**
+     * Test for the method getX() using the Pawn exist.
+     * @see simpleGame.core.Pawn#getX()
+     * @input the created Pawn('P', 5, 6, board) in SimplePawn
+     * @oracle The x of pawn must be 5
+     * @passed Yes
+     */
     @Test
-    public void testGetX() throws Exception {
+    public void testGetX()  {
         assertTrue(p.getX() == 5);
     }
 
+    /**
+     * Test for the method getY() using the Pawn exist.
+     * @see simpleGame.core.Pawn#getY()
+     * @input the created Pawn('P', 5, 6, board) in SimplePawn
+     * @oracle The y of pawn must be 6
+     * @passed Yes
+     */
     @Test
-    public void testGetY() throws Exception {
+    public void testGetY() {
         assertTrue(p.getY() == 6);
     }
 
+    /**
+     * Test for the method getLetter() using the Pawn exist.
+     * @see simpleGame.core.Pawn#getLetter()
+     * @input the created Pawn('P', 5, 6, board) in SimplePawn
+     * @oracle The letter of pawn must be P
+     * @passed Yes
+     */
     @Test
-    public void testGetLetter() throws Exception {
+    public void testGetLetter() {
         assertTrue(p.getLetter() == 'P');
     }
 
+    /**
+     * Test for the method getGold() using the Pawn exist.
+     * @see simpleGame.core.Pawn#getGold()
+     * @input the created Pawn('P', 5, 6, board) in SimplePawn
+     * @oracle The y of pawn must be 6
+     * @passed Yes
+     */
     @Test
-    public void testGetGold() throws Exception {
+    public void testGetGold()  {
         assertTrue(p.getGold() == 0);
     }
 
     /**
-     * la méthode move()
-     * <p/>
      * Test move avec appel a la methode attack
-     *
-     * @throws Exception
+     * @throws Exception If the pawn moves out of the board, an OutOfBoardException will be thrown.
      * @see simpleGame.core.Pawn#move(simpleGame.core.Direction)
+     * @input mock board getYSize()=10 and getXSize()=10, a new pawn ('A', 5, 5, board), Direction=Down
+     * @oracle With attacks and the message produced by the method move will contain "P attacks!"
+     * @passed Yes
      */
     @Test
     public void testMove() throws Exception {
@@ -76,12 +111,13 @@ public class TestPawn {
     }
 
     /**
-     * la méthode move()
-     * <p/>
      * Test move simple sans attack
      *
-     * @throws Exception
+     * @throws Exception If the pawn moves out of the board, an OutOfBoardException will be thrown.
      * @see simpleGame.core.Pawn#move(simpleGame.core.Direction)
+     * @input mock board getYSize()=10 and getXSize()=10, a new pawn ('A', 6, 7, board), Direction=Up, Left, and Right
+     * @oracle Without attacks this time and the message produced by the method move is ""
+     * @passed Yes
      */
     @Test
     public void testMoveUpLeftRight() throws Exception {
@@ -100,12 +136,14 @@ public class TestPawn {
 
     /**
      * la méthode move()
-     * <p/>
      * Test move simple avec attack
      * board.isBonusSquare(x, y) == true
-     *
-     * @throws Exception
+     * @throws Exception If the pawn moves out of the board, an OutOfBoardException will be thrown.
      * @see simpleGame.core.Pawn#move(simpleGame.core.Direction)
+     * @input mock board getYSize()=10 and getXSize()=10, a new pawn ('A', 6, 6, board), Direction=Right
+     * @input mock getSquareContent(6,6)=p1 and (5,6) is the bonus square
+     * @oracle With attacks and the message produced by the method move will contain "P attacks!" and p will lose 2 hitpoints.
+     * @passed Yes
      */
     @Test
     public void testMoveEnemySuffer() throws Exception {
@@ -131,6 +169,14 @@ public class TestPawn {
     }
 
 
+    /**
+     * Test move in the case that the pawn will move out of the board.
+     * @throws Exception If the pawn moves out of the board, an OutOfBoardException will be thrown.
+     * @see simpleGame.core.Pawn#move(simpleGame.core.Direction)
+     * @input mock board getYSize()=10 and getXSize()=10, a new pawn ('P', 10, 9, board), Direction=Right
+     * @oracle An OutOfBoardException will be thrown.
+     * @passed Yes
+     */
     @Test(expected = OutOfBoardException.class)
     public void testMoveExceptionRight() throws Exception {
         // rappel: p = new Pawn('r',5,6,board);
@@ -140,10 +186,18 @@ public class TestPawn {
         Mockito.when(board.getYSize()).thenReturn(10);
         Mockito.when(board.getXSize()).thenReturn(10);
         p.move(Direction.valueOf("Right"));
-        //assertTrue(p.move(Direction.Right).contains("This square does not exist:")); //exception car on sort du board
+
     }
 
 
+    /**
+     * Test move in the case that the pawn will move out of the board.
+     * @throws Exception If the pawn moves out of the board, an OutOfBoardException will be thrown.
+     * @see simpleGame.core.Pawn#move(simpleGame.core.Direction)
+     * @input mock board getYSize()=10 and getXSize()=10, a new pawn ('P', 9, 10, board), Direction=Up
+     * @oracle An OutOfBoardException will be thrown.
+     * @passed Yes
+     */
     @Test(expected = OutOfBoardException.class)
     public void testMoveExceptionUp() throws Exception {
         // rappel: p = new Pawn('r',5,6,board);
@@ -153,10 +207,18 @@ public class TestPawn {
         Mockito.when(board.getYSize()).thenReturn(10);
         Mockito.when(board.getXSize()).thenReturn(10);
         p.move(Direction.valueOf("Up"));
-        //assertTrue(p.move(Direction.Up).contains("This square does not exist:")); //exception car on sort du board
+
     }
 
 
+    /**
+     * Test move in the case that the pawn will move out of the board.
+     * @throws Exception If the pawn moves out of the board, an OutOfBoardException will be thrown.
+     * @see simpleGame.core.Pawn#move(simpleGame.core.Direction)
+     * @input mock board getYSize()=10 and getXSize()=10, a new pawn ('P', 0, 9, board), Direction=Left
+     * @oracle An OutOfBoardException will be thrown.
+     * @passed Yes
+     */
     @Test(expected = OutOfBoardException.class)
     public void testMoveExceptionLeft() throws Exception {
         // rappel: p = new Pawn('r',5,6,board);
@@ -166,10 +228,18 @@ public class TestPawn {
         Mockito.when(board.getYSize()).thenReturn(10);
         Mockito.when(board.getXSize()).thenReturn(10);
         p.move(Direction.valueOf("Left"));
-        //assertTrue(p.move(Direction.Left).contains("This square does not exist:")); //exception car on sort du board
+
     }
 
 
+    /**
+     * Test move in the case that the pawn will move out of the board.
+     * @throws Exception If the pawn moves out of the board, an OutOfBoardException will be thrown.
+     * @see simpleGame.core.Pawn#move(simpleGame.core.Direction)
+     * @input mock board getYSize()=10 and getXSize()=10, a new pawn ('P', 9, 0, board), Direction=Down
+     * @oracle An OutOfBoardException will be thrown.
+     * @passed Yes
+     */
     @Test(expected = OutOfBoardException.class)
     public void testMoveExceptionDown() throws Exception {
         // rappel: p = new Pawn('r',5,6,board);
@@ -180,20 +250,11 @@ public class TestPawn {
         Mockito.when(board.getXSize()).thenReturn(10);
         p.move(Direction.valueOf("Down"));
 
-        // assertTrue(p.move(Direction.Down).contains("This square does not exist:")); //exception car on sort du board
+
     }
 
 
 
 
-//    @Test
-//    public void testDirection(){
-//
-//
-//        assertEquals(Direction.Down,Direction.valueOf("Down"));
-//        assertEquals(Direction.Up,Direction.valueOf("Up"));
-//        assertEquals(Direction.Left,Direction.valueOf("Left"));
-//        assertEquals(Direction.Right,Direction.valueOf("Right"));
-//    }
 
 }

@@ -78,7 +78,7 @@ public class Board {
                                      random.nextInt(xSize),random.nextInt(ySize),this);
                 this.addPawn(pawn);
             }
-            currentPawn = pawns.get(0);
+            currentPawn = pawns.get(0);// can not set the 0 pawn as the current because there is no pawn in the list.
         }
 
     }
@@ -155,18 +155,21 @@ public class Board {
      * @return The next pawn that is allowed to play.
      */
     public Pawn getNextPawn() {
-        if (pawns.size() == 1) {
+
+        //code ajouté ici
+        if(this.pawns.size()==0) //sinon division par 0
+        {
+            return null;
+        }
+
+        else if (pawns.size() == 1) {
             currentPawn = pawns.get(0);
             return pawns.get(0);
         }
         else {
             Pawn result = currentPawn;
 
-            //code ajouté ici
-            if(this.pawns.size()==0) //sinon division par 0
-            {
-                return null;
-            }
+
             //**********
             currentPawn = this.pawns.get((this.pawns.indexOf(
                                               currentPawn)+1)%this.pawns.size());//bug here
