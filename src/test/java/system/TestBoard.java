@@ -7,7 +7,6 @@ import simpleGame.core.Direction;
 import simpleGame.core.Pawn;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
 /**
  * Created by josian on 07/10/14.
@@ -163,7 +162,7 @@ public class TestBoard
     @Test
     public void TestContentSprite()
     {
-        //teste
+        //teste 123456
         board = new Board(0,3,3,2,2);
         assertTrue(board.numberOfPawns()==0);
         board.removeAllPawns();
