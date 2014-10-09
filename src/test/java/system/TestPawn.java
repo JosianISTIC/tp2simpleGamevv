@@ -3,6 +3,7 @@ package system;
 import junit.framework.TestCase;
 
 //It is recommended to import Mockito statically so that the code looks clearer
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 // Eclipse might not find this one automatically:
@@ -138,7 +139,7 @@ public class TestPawn {
         p = new Pawn('P', 10, 9, board);
         Mockito.when(board.getYSize()).thenReturn(10);
         Mockito.when(board.getXSize()).thenReturn(10);
-        p.move(Direction.Right);
+        p.move(Direction.valueOf("Right"));
         //assertTrue(p.move(Direction.Right).contains("This square does not exist:")); //exception car on sort du board
     }
 
@@ -151,7 +152,7 @@ public class TestPawn {
         p = new Pawn('P', 9, 10, board);
         Mockito.when(board.getYSize()).thenReturn(10);
         Mockito.when(board.getXSize()).thenReturn(10);
-        p.move(Direction.Up);
+        p.move(Direction.valueOf("Up"));
         //assertTrue(p.move(Direction.Up).contains("This square does not exist:")); //exception car on sort du board
     }
 
@@ -164,7 +165,7 @@ public class TestPawn {
         p = new Pawn('P', 0, 9, board);
         Mockito.when(board.getYSize()).thenReturn(10);
         Mockito.when(board.getXSize()).thenReturn(10);
-        p.move(Direction.Left);
+        p.move(Direction.valueOf("Left"));
         //assertTrue(p.move(Direction.Left).contains("This square does not exist:")); //exception car on sort du board
     }
 
@@ -177,7 +178,22 @@ public class TestPawn {
         p = new Pawn('P', 9, 0, board);
         Mockito.when(board.getYSize()).thenReturn(10);
         Mockito.when(board.getXSize()).thenReturn(10);
-        p.move(Direction.Down);
+        p.move(Direction.valueOf("Down"));
+
         // assertTrue(p.move(Direction.Down).contains("This square does not exist:")); //exception car on sort du board
     }
+
+
+
+
+//    @Test
+//    public void testDirection(){
+//
+//
+//        assertEquals(Direction.Down,Direction.valueOf("Down"));
+//        assertEquals(Direction.Up,Direction.valueOf("Up"));
+//        assertEquals(Direction.Left,Direction.valueOf("Left"));
+//        assertEquals(Direction.Right,Direction.valueOf("Right"));
+//    }
+
 }
