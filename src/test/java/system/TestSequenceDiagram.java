@@ -80,7 +80,7 @@ public class TestSequenceDiagram extends Game {
 
 
     @Test
-    public void testIsGameOverGetGold() throws Exception{
+    public void testIsMaxGoldGetGold() throws Exception{
         board=new Board(2,5,5,3,3);
         ArrayList<Pawn> pawns=new ArrayList<>();
         pawns.add(p0);
