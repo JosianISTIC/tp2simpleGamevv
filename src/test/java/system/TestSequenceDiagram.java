@@ -16,6 +16,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.mockingDetails;
@@ -75,6 +76,53 @@ public class TestSequenceDiagram extends Game {
 //        order.verify(p0).getGold();
 //        order.verify(p1).getGold();
 //        assertEquals(3,max);
+
+    }
+
+    @Test
+    public void testIsGameOverMaxGoldNotOver() throws Exception {
+
+        Field boardField = game.getClass().getDeclaredField("board");
+        boardField.setAccessible(true);
+        boardField.set(game, board);
+        when(board.maxGold()).thenReturn(2);
+        boolean res = game.isGameOver();
+        Mockito.verify(board).maxGold();
+        //Mockito.verify(p0).getGold();
+        //Mockito.verify(p1).getGold();
+        assertFalse(res);
+    }
+
+
+    @Test
+    public void testIsGameOverNumberPawnsNotOne() throws Exception {
+
+        Field boardField = game.getClass().getDeclaredField("board");
+        boardField.setAccessible(true);
+        boardField.set(game, board);
+        when(board.maxGold()).thenReturn(2);
+        when(board.numberOfPawns()).thenReturn(2);
+        boolean res = game.isGameOver();
+        Mockito.verify(board).maxGold();
+        //Mockito.verify(p0).getGold();
+        //Mockito.verify(p1).getGold();
+        assertFalse(res);
+
+    }
+
+    @Test
+    public void testIsGameOverNumberPawns() throws Exception {
+
+        Field boardField = game.getClass().getDeclaredField("board");
+        boardField.setAccessible(true);
+        boardField.set(game, board);
+        when(board.maxGold()).thenReturn(2);
+        when(board.numberOfPawns()).thenReturn(1);
+        boolean res = game.isGameOver();
+        Mockito.verify(board).numberOfPawns();// MaxGold will not be called because the first condition is verified.
+        //Mockito.verify(p0).getGold();
+        //Mockito.verify(p1).getGold();
+        assertTrue(res);
 
     }
 
