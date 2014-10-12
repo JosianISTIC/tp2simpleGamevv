@@ -27,11 +27,12 @@ public class TestSequenceDiagram{
     {
 
         Game g1 = new Game();
+
         //utilisation de la reflection pour set le board a un mockitos
-        Field field = g1.getClass().getDeclaredField("board");
-        field.setAccessible(true);
+        Field field = g1.getClass().getDeclaredField("board");//recupere l'attibut de Game
+        field.setAccessible(true);//on le rend accessible
         Object b = mock(Board.class);//instancie un mockito
-        field.set(g1,(Board)b);
+        field.set(g1,(Board)b); //
 
         when(((Board) b).numberOfPawns()).thenReturn(2);
         when(((Board) b).maxGold()).thenReturn(3);
@@ -40,7 +41,7 @@ public class TestSequenceDiagram{
 
         org.junit.Assert.assertTrue(g1.isGameOver());
 
-        //dans l'ordre il va executer p1.getGold, puis p2.getGold()
+        //dans l'ordre il va executer numberofpawns() puis mawGold
         InOrder mocksWithOrder = inOrder(b);
 
         mocksWithOrder.verify((Board) b).numberOfPawns();
