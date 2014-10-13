@@ -17,7 +17,7 @@ import simpleGame.core.Direction;
 import simpleGame.core.Pawn;
 import simpleGame.exception.OutOfBoardException;
 
-@RunWith(MockitoJUnitRunner.class) // This is required for mocks to work
+
 
 /**
  * Test de Pawn en utilisant un Mock de Board
@@ -25,6 +25,7 @@ import simpleGame.exception.OutOfBoardException;
  * @author Josian MARINIER
  * @author Leite NA
  */
+@RunWith(MockitoJUnitRunner.class) // This is required for mocks to work
 public class TestPawn {
     Pawn p;
     Board board; //le mockito

@@ -14,6 +14,7 @@ import simpleGame.core.*;
 import java.lang.reflect.Field;
 
 /**
+ * Test the call of isgameOver() and maxGold()
  * @author Josian MARINIER
  * @author Leite NA
  */

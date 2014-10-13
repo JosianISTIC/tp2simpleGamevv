@@ -69,7 +69,8 @@ public class Board {
         this.yBonusSquare = yBonus;
         this.pawns = new ArrayList<Pawn>();
 
-        //ajout de code ici
+        //Bug ici, on est obligé de tester si numberOfPawns != 0
+        //Sinon on pourrait pas executer: pawns.get(0)
         if(numberOfPawns > 0)
         {
             for(int i = 0; i<numberOfPawns; i++)
