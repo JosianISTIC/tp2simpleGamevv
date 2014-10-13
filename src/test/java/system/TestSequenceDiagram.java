@@ -14,7 +14,8 @@ import simpleGame.core.*;
 import java.lang.reflect.Field;
 
 /**
- * Created by josian on 12/10/14.
+ * @author Josian MARINIER
+ * @author Leite NA
  */
 public class TestSequenceDiagram{
 
@@ -54,9 +55,10 @@ public class TestSequenceDiagram{
 
 
     /**
+     * Test the order of call methods when calling board.maxGold()
      * @see simpleGame.core.Board#maxGold()
-     * @input 2 Pawn as Mock: p1 and p2
-     * @oracle the method board.maxGold() must call getGold() on  p1 and then on p2
+     * @input 2 Pawn as Mock: p1 and p2, with p1.getGold()==1 and p2.getGold()==3
+     * @oracle the method board.maxGold() must call getGold() on  p1 and then on p2, and board.maxGold()==3
      * @passed Yes
      *
      */

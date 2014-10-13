@@ -18,7 +18,7 @@ public class Game {
 
     public Board getBoard()
     {
-        return board;
+        return this.board;
     }
 
     public void setBoard(Board b)
