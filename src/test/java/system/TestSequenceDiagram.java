@@ -21,6 +21,9 @@ public class TestSequenceDiagram{
 
     /**
      * @see simpleGame.core.Game#isGameOver()
+     * @oracle the method isGameOver must call board.numberOfPawns() and the board.maxGold()
+     * @passed Yes
+     * @input a Board as Mock where b.numberOfPawns()==2 and b.maxGold() == 3
      */
     @Test
     public void TestIsGameOver() throws Exception
@@ -28,14 +31,12 @@ public class TestSequenceDiagram{
 
         Game g1 = new Game();
 
-        //utilisation de la reflection pour set le board a un mockitos
-        Field field = g1.getClass().getDeclaredField("board");//recupere l'attibut de Game
-        field.setAccessible(true);//on le rend accessible
-        Object b = mock(Board.class);//instancie un mockito
-        field.set(g1,(Board)b); //
 
-        when(((Board) b).numberOfPawns()).thenReturn(2);
-        when(((Board) b).maxGold()).thenReturn(3);
+        Board b = mock(Board.class);//instancie un mockito
+        g1.setBoard(b); //set un mock Board
+
+        when(b.numberOfPawns()).thenReturn(2);
+        when(b.maxGold()).thenReturn(3);
         //tester appel a numberofpawns
         // puis maxgold()
 
@@ -53,11 +54,16 @@ public class TestSequenceDiagram{
 
 
     /**
-     * @see simpleGame.core.Game
+     * @see simpleGame.core.Board#maxGold()
+     * @input 2 Pawn as Mock: p1 and p2
+     * @oracle the method board.maxGold() must call getGold() on  p1 and then on p2
+     * @passed Yes
+     *
      */
     @Test
     public void TestMaxGold()
     {
+
         Board b = new Board(0,4,4,2,2);
         b.removeAllPawns();
 

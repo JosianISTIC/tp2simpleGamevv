@@ -15,6 +15,17 @@ public class Game {
      */
     private Board board;
 
+
+    public Board getBoard()
+    {
+        return board;
+    }
+
+    public void setBoard(Board b)
+    {
+        this.board = b;
+    }
+
     /**
      * Constructs a Game with 2 pawns on a 4x4 board.
      */
